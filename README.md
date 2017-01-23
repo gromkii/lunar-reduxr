@@ -20,3 +20,12 @@ To run tests, we simple call for npm. This will run our karma testing suite.
 ```
 npm test
 ```
+
+## [Wireframe](https://wireframe.cc/TBmVSI)
+
+## Routes
+
+```
+GET: /posts
+POST: /posts
+```

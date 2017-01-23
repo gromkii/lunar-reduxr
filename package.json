@@ -9,6 +9,7 @@
   "author": "Andrew Mead",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.15.3",
     "body-parser": "^1.16.0",
     "expect": "^1.20.2",
     "express": "^4.13.4",

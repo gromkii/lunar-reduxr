@@ -25,6 +25,9 @@ module.exports = {
       applicationStyles: 'app/styles/app.scss',
       Server:'server.js',
       Main:'app/components/Main.jsx',
+      Posts:'app/components/Posts.jsx',
+      PostForm:'app/components/PostForm.jsx',
+      PostFeed:'app/components/PostFeed.jsx',
     },
     extensions: ['', '.js', '.jsx']
   },
