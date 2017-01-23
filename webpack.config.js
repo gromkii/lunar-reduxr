@@ -28,6 +28,7 @@ module.exports = {
       Posts:'app/components/Posts.jsx',
       PostForm:'app/components/PostForm.jsx',
       PostFeed:'app/components/PostFeed.jsx',
+      Post:'app/components/Post.jsx',
     },
     extensions: ['', '.js', '.jsx']
   },

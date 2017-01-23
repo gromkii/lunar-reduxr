@@ -13,6 +13,21 @@ export default class Posts extends Component {
     }
 
     this._handleFormPost = this._handleFormPost.bind(this);
+    this._handleFeedUpdate = this._handleFeedUpdate.bind(this);
+  }
+
+  componentWillMount() {
+    axios.get('/posts').then(response => {
+      this._handleFeedUpdate(response.data);
+    }).catch( error => {
+      console.error('Failed to fetch posts');
+    })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.state.postsArray !== prevState.postsArray) {
+      console.log('Updated');
+    }
   }
 
   _handleFormPost(formText){
@@ -24,9 +39,13 @@ export default class Posts extends Component {
 
       newArr.push(newPost);
 
-      this.setState({
-        postsArray:newArr
-      });
+      this._handleFeedUpdate(newArr);
+    });
+  }
+
+  _handleFeedUpdate(posts) {
+    this.setState({
+      postsArray:posts
     });
   }
 
@@ -36,7 +55,7 @@ export default class Posts extends Component {
         <h1>Posts</h1>
 
         <PostForm handleFormPost={this._handleFormPost}/>
-        <PostFeed />
+        <PostFeed posts={this.state.postsArray} />
       </section>
     )
   }
