@@ -23,6 +23,7 @@ module.exports = {
     root: __dirname,
     alias: {
       applicationStyles: 'app/styles/app.scss',
+      Server:'server.js',
       Main:'app/components/Main.jsx',
     },
     extensions: ['', '.js', '.jsx']
