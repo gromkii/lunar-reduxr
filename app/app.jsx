@@ -5,7 +5,7 @@ import Main from 'Main'
 
 
 // Include CSS for Foundation
-require('style!css!foundation-sites/dist/foundation.min.css');
+require('style!css!foundation-sites/dist/css/foundation.min.css');
 $(document).foundation();
 
 // Include custom SCSS
