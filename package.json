@@ -1,12 +1,12 @@
 {
-  "name": "boilerplate",
+  "name": "lunar-talkr",
   "version": "1.0.0",
-  "description": "Simple react app",
+  "description": "Coding challenge for Lunar Collective",
   "main": "index.js",
   "scripts": {
     "test": "karma start"
   },
-  "author": "Andrew Mead",
+  "author": "Dax Richardson",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.15.3",

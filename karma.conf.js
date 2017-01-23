@@ -18,6 +18,9 @@ module.exports = function(config) {
     webpack:webpackConfig,
     webpackServer: {
       noInfo: true
+    },
+    proxies: {
+      '/posts': 'http://localhost:3000/posts'
     }
   });
 };

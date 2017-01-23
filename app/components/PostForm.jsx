@@ -17,21 +17,9 @@ export default class PostForm extends Component {
 
     var data = this.refs.post_text.value;
 
-    console.log(data.length);
-
     if (data.length > 5 && data.length < 500) {
-      axios.post('/posts', {
-        post_text:data
-      }).then(returning => {
-
-        this.setState({
-          error:false
-        });
-
-        this.refs.post_text = null;
-      }).catch(error => {
-        console.error(error);
-      });
+      this.refs.post_text.value = '';
+      this.props.handleFormPost(String(data));
     } else {
       this.setState({
         error:true

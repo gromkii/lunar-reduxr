@@ -25546,6 +25546,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _axios = __webpack_require__(230);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
 	var _PostForm = __webpack_require__(229);
 
 	var _PostForm2 = _interopRequireDefault(_PostForm);
@@ -25565,13 +25569,38 @@
 	var Posts = function (_Component) {
 	  _inherits(Posts, _Component);
 
-	  function Posts() {
+	  function Posts(props) {
 	    _classCallCheck(this, Posts);
 
-	    return _possibleConstructorReturn(this, (Posts.__proto__ || Object.getPrototypeOf(Posts)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Posts.__proto__ || Object.getPrototypeOf(Posts)).call(this, props));
+
+	    _this.state = {
+	      postsArray: []
+	    };
+
+	    _this._handleFormPost = _this._handleFormPost.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(Posts, [{
+	    key: '_handleFormPost',
+	    value: function _handleFormPost(formText) {
+	      var _this2 = this;
+
+	      _axios2.default.post('/posts', {
+	        post_text: formText
+	      }).then(function (response) {
+	        var newArr = _this2.state.postsArray,
+	            newPost = response.data[0];
+
+	        newArr.push(newPost);
+
+	        _this2.setState({
+	          postsArray: newArr
+	        });
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -25582,7 +25611,7 @@
 	          null,
 	          'Posts'
 	        ),
-	        _react2.default.createElement(_PostForm2.default, null),
+	        _react2.default.createElement(_PostForm2.default, { handleFormPost: this._handleFormPost }),
 	        _react2.default.createElement(_PostFeed2.default, null)
 	      );
 	    }
@@ -25640,27 +25669,13 @@
 	  _createClass(PostForm, [{
 	    key: '_handleSubmit',
 	    value: function _handleSubmit(e) {
-	      var _this2 = this;
-
 	      e.preventDefault();
 
 	      var data = this.refs.post_text.value;
 
-	      console.log(data.length);
-
 	      if (data.length > 5 && data.length < 500) {
-	        _axios2.default.post('/posts', {
-	          post_text: data
-	        }).then(function (returning) {
-
-	          _this2.setState({
-	            error: false
-	          });
-
-	          _this2.refs.post_text = null;
-	        }).catch(function (error) {
-	          console.error(error);
-	        });
+	        this.refs.post_text.value = '';
+	        this.props.handleFormPost(String(data));
 	      } else {
 	        this.setState({
 	          error: true
