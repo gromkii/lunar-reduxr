@@ -1,5 +1,7 @@
 #Lunar Talkr
-## The only way to chat!
+The only way to chat.
+
+## [See it in action!](https://lunar-talkr.herokuapp.com/)
 
 ## Installation
 
@@ -16,7 +18,7 @@ createdb lunar_dev; createdb lunar_test
 
 ## Testing
 
-To run tests, we simple call for npm. This will run our karma testing suite.
+To run tests, we simple call for npm. This will run our testing suite.
 ```
 npm test
 ```

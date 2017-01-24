@@ -7,4 +7,10 @@ machine:
 
 test:
   override:
-    - NODE_ENV=circle mocha app/tests
+    - NODE_ENV=circle mocha app/tests; karma start
+
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: foo-bar-123
