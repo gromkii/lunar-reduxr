@@ -25628,20 +25628,25 @@
 
 	      return _react2.default.createElement(
 	        'section',
-	        { className: 'row' },
+	        { className: 'row top-margin' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'columns small-6' },
+	          { className: 'columns small-6 post-form' },
 	          _react2.default.createElement(
 	            'h1',
 	            null,
 	            'Talkr'
 	          ),
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'What\'s on your mind?'
+	          ),
 	          _react2.default.createElement(_PostForm2.default, { handleFormPost: this._handleFormPost })
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'columns small-6' },
+	          { className: 'columns small-6 post-feed' },
 	          viewData
 	        )
 	      );
@@ -27221,11 +27226,6 @@
 	        'section',
 	        null,
 	        _react2.default.createElement(
-	          'h4',
-	          null,
-	          'What\'s on your mind?'
-	        ),
-	        _react2.default.createElement(
 	          'form',
 	          { id: 'postForm', onSubmit: this._handleSubmit },
 	          _react2.default.createElement('textarea', { ref: 'post_text' }),
@@ -27676,7 +27676,7 @@
 
 
 	// module
-	exports.push([module.id, "", ""]);
+	exports.push([module.id, ".top-margin {\n  margin-top: 50px;\n  height: 75vh; }\n\n.post-form {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center; }\n\n.post-feed {\n  height: 100%;\n  overflow: scroll;\n  border-bottom: 1px solid #aaaaaa; }\n", ""]);
 
 	// exports
 
