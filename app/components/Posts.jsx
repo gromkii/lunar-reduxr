@@ -19,15 +19,7 @@ export default class Posts extends Component {
   componentWillMount() {
     axios.get('/posts').then(response => {
       this._handleFeedUpdate(response.data);
-    }).catch( error => {
-      console.error('Failed to fetch posts');
-    })
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if(this.state.postsArray !== prevState.postsArray) {
-      console.log('Updated');
-    }
+    });
   }
 
   _handleFormPost(formText){
@@ -50,12 +42,23 @@ export default class Posts extends Component {
   }
 
   render(){
+    var viewData = null;
+
+    if (this.state.postsArray.length) {
+      viewData = (
+        <PostFeed posts={this.state.postsArray} />
+      );
+    } else {
+      viewData = null;
+    }
+
+
     return(
       <section>
         <h1>Posts</h1>
 
         <PostForm handleFormPost={this._handleFormPost}/>
-        <PostFeed posts={this.state.postsArray} />
+        {viewData}
       </section>
     )
   }
