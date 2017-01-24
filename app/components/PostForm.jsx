@@ -20,6 +20,9 @@ export default class PostForm extends Component {
     if (data.length > 5 && data.length < 500) {
       this.refs.post_text.value = '';
       this.props.handleFormPost(String(data));
+      this.setState({
+        error:false
+      })
     } else {
       this.setState({
         error:true
@@ -32,7 +35,7 @@ export default class PostForm extends Component {
 
     if (this.state.error) {
       userMessage = (
-        <h4>Error, post to long, or too short!</h4>
+        <h4 className="error-message">Error, post to long, or too short!</h4>
       );
     } else {
       userMessage = null;
