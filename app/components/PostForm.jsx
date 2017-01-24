@@ -17,7 +17,7 @@ export default class PostForm extends Component {
 
     var data = this.refs.post_text.value;
 
-    if (data.length > 5 && data.length < 500) {
+    if (data.length >= 5 && data.length <= 500) {
       this.refs.post_text.value = '';
       this.props.handleFormPost(String(data));
       this.setState({

@@ -17,11 +17,15 @@ app.get('/posts', (req, res) => {
 });
 
 app.post('/posts', (req, res) => {
-  knex('posts').insert({
-    post_text:req.body.post_text
-  }).returning('*').then(returning => {
-    res.json(returning);
-  });
+  if (res.body.post_text.length >= 5 && res.body.post_text.length <= 500) {
+    knex('posts').insert({
+      post_text:req.body.post_text
+    }).returning('*').then(returning => {
+      res.json(returning);
+    });
+  } else {
+    res.json({error:'Invalid post! Must be between 5 and 500 characters'});
+  }
 });
 
 app.listen(port, () => {
