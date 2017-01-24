@@ -17,7 +17,7 @@ app.get('/posts', (req, res) => {
 });
 
 app.post('/posts', (req, res) => {
-  if (res.body.post_text.length >= 5 && res.body.post_text.length <= 500) {
+  if (req.body.post_text.length >= 5 && req.body.post_text.length <= 500) {
     knex('posts').insert({
       post_text:req.body.post_text
     }).returning('*').then(returning => {
