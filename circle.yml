@@ -7,7 +7,7 @@ machine:
 
 test:
   override:
-    - NODE_ENV=circle mocha
+    - NODE_ENV=circle mocha app/tests
 
 deployment:
   staging:
