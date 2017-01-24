@@ -27,7 +27,7 @@ describe('API', ()=> {
         .get('/posts')
         .expect(200)
         .end((err, res) => {
-          let data = res.body;
+          var data = res.body;
 
           expect(data.length).to.eq(3);
           done();
@@ -37,7 +37,7 @@ describe('API', ()=> {
 
   describe('/posts :POST,', () => {
     it('should return new post info after posting', done => {
-      let data = {
+      var data = {
         post_text:'This is a new post, my dude.'
       }
 
@@ -46,7 +46,7 @@ describe('API', ()=> {
         .send(data)
         .expect(200)
         .end((err, res) => {
-          let data = res.body[0];
+          var data = res.body[0];
 
           expect(data.post_text).to.eq('This is a new post, my dude.');
           done();
@@ -58,7 +58,7 @@ describe('API', ()=> {
         .get('/posts')
         .expect(200)
         .end((err, res) => {
-          let data = res.body;
+          var data = res.body;
 
           expect(data.length).to.eq(4);
           expect(data[3].post_text).to.eq('This is a new post, my dude.');
