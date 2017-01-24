@@ -16,7 +16,7 @@ export default class PostFeed extends Component {
 
     return (
       <section>
-        {postFeed}
+        {postFeed.reverse()}
       </section>
     )
   }

@@ -27292,7 +27292,7 @@
 	      return _react2.default.createElement(
 	        'section',
 	        null,
-	        postFeed
+	        postFeed.reverse()
 	      );
 	    }
 	  }]);
