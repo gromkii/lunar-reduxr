@@ -9,7 +9,9 @@ module.exports = {
 
   testing: {
     client: 'postgresql',
-    connection: { database: 'lunar_test' }
+    connection: {
+      database: 'lunar_test'
+    }
   },
 
   circle: {

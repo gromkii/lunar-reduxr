@@ -17,8 +17,6 @@ app.get('/posts', (req, res) => {
 });
 
 app.post('/posts', (req, res) => {
-  console.log(req.body);
-
   knex('posts').insert({
     post_text:req.body.post_text
   }).returning('*').then(returning => {
@@ -29,3 +27,5 @@ app.post('/posts', (req, res) => {
 app.listen(port, () => {
   console.log('Server is listening on %s! 🐰', port);
 });
+
+module.exports = app;
