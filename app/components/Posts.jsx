@@ -54,11 +54,17 @@ export default class Posts extends Component {
 
 
     return(
-      <section>
-        <h1>Posts</h1>
+      <section className="row">
+        <div className="columns small-6">
+          <h1>Talkr</h1>
 
-        <PostForm handleFormPost={this._handleFormPost}/>
-        {viewData}
+          <PostForm handleFormPost={this._handleFormPost}/>
+        </div>
+
+
+        <div className="columns small-6">
+          {viewData}
+        </div>
       </section>
     )
   }

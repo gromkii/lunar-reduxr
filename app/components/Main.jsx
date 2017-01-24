@@ -5,7 +5,7 @@ export default class Main extends Component {
     return (
       <main>
         <div className="row">
-          <div className="column small-centered medium-6 large-4">
+          <div className="column small-12">
             {this.props.children}
           </div>
         </div>

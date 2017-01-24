@@ -12,7 +12,7 @@ export default class PostFeed extends Component {
           {post.post_text}
         </p>
       )
-    });
+    })
 
     return (
       <section>

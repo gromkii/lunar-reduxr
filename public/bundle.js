@@ -25517,7 +25517,7 @@
 	          { className: "row" },
 	          _react2.default.createElement(
 	            "div",
-	            { className: "column small-centered medium-6 large-4" },
+	            { className: "column small-12" },
 	            this.props.children
 	          )
 	        )
@@ -25628,14 +25628,22 @@
 
 	      return _react2.default.createElement(
 	        'section',
-	        null,
+	        { className: 'row' },
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Posts'
+	          'div',
+	          { className: 'columns small-6' },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Talkr'
+	          ),
+	          _react2.default.createElement(_PostForm2.default, { handleFormPost: this._handleFormPost })
 	        ),
-	        _react2.default.createElement(_PostForm2.default, { handleFormPost: this._handleFormPost }),
-	        viewData
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'columns small-6' },
+	          viewData
+	        )
 	      );
 	    }
 	  }]);
@@ -27213,9 +27221,9 @@
 	        'section',
 	        null,
 	        _react2.default.createElement(
-	          'h3',
+	          'h4',
 	          null,
-	          'Hey there, what\'s going on?'
+	          'What\'s on your mind?'
 	        ),
 	        _react2.default.createElement(
 	          'form',

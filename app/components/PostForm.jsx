@@ -40,7 +40,7 @@ export default class PostForm extends Component {
 
     return (
       <section>
-        <h3>Hey there, what's going on?</h3>
+        <h4>What's on your mind?</h4>
         <form id="postForm" onSubmit={this._handleSubmit}>
           <textarea ref="post_text"></textarea>
 
