@@ -29293,9 +29293,15 @@
 
 	var _reactRedux = __webpack_require__(227);
 
+	var _actions = __webpack_require__(263);
+
+	var actions = _interopRequireWildcard(_actions);
+
 	var _axios = __webpack_require__(266);
 
 	var _axios2 = _interopRequireDefault(_axios);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29325,12 +29331,12 @@
 
 	      var text = this.refs.post_text.value;
 
-	      if (text.length < 5) {
+	      if (text.length < 5 && text.length) {
 	        dispatch(actions.setErrorStatus('short'));
 	      } else if (text.length > 500) {
-	        dispatch(actions.setErrorState('long'));
+	        dispatch(actions.setErrorStatus('long'));
 	      } else {
-	        dispatch(actions.setErrorState('valid'));
+	        dispatch(actions.setErrorStatus('valid'));
 	      }
 	    }
 	  }, {
@@ -29380,7 +29386,7 @@
 	        _react2.default.createElement(
 	          'form',
 	          { id: 'postForm', onSubmit: this._handleSubmit },
-	          _react2.default.createElement('textarea', { ref: 'post_text', onChange: this.handleChange }),
+	          _react2.default.createElement('textarea', { ref: 'post_text', onChange: this._handleChange }),
 	          _react2.default.createElement(
 	            'button',
 	            { className: 'button expanded' },
@@ -29530,7 +29536,7 @@
 	  var action = arguments[1];
 
 	  switch (action.type) {
-	    case 'SET_ERROR':
+	    case 'SET_ERROR_STATUS':
 	      return action.error;
 
 	    default:

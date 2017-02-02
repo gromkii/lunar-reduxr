@@ -20,7 +20,7 @@ export function postReducer(state = [], action) {
 
 export function errorStatusReducer(state = '', action) {
   switch(action.type){
-    case 'SET_ERROR':
+    case 'SET_ERROR_STATUS':
       return action.error
 
     default:

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import * as actions from 'actions'
 import axios from 'axios'
 
 export class PostForm extends Component {
@@ -14,12 +15,12 @@ export class PostForm extends Component {
     var { dispatch } = this.props;
     var text = this.refs.post_text.value;
 
-    if (text.length < 5) {
+    if (text.length < 5 && text.length) {
       dispatch(actions.setErrorStatus('short'));
     } else if (text.length > 500) {
-      dispatch(actions.setErrorState('long'));
+      dispatch(actions.setErrorStatus('long'));
     } else {
-      dispatch(actions.setErrorState('valid'));
+      dispatch(actions.setErrorStatus('valid'));
     }
   }
 
@@ -53,7 +54,7 @@ export class PostForm extends Component {
     return (
       <section>
         <form id="postForm" onSubmit={this._handleSubmit}>
-          <textarea ref="post_text" onChange={this.handleChange}></textarea>
+          <textarea ref="post_text" onChange={this._handleChange}></textarea>
 
           <button className="button expanded">Post</button>
         </form>
