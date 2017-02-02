@@ -117,9 +117,12 @@
 	var store = __webpack_require__(294).configure();
 
 
-	store.dispatch(actions.startDispatch(store.getState().sentStatus));
+	var state = store.getState();
+
+	//This is mess, but grabs initial posts, gives user loading message
+	store.dispatch(actions.startDispatch(state.sentStatus));
 	_postAPI2.default.getPosts().then(function (posts) {
-	  store.dispatch(actions.endDispatch(store.getState().sentStatus));
+	  store.dispatch(actions.endDispatch(state.sentStatus));
 	  store.dispatch(actions.addPosts(posts.data));
 	});
 
@@ -29512,17 +29515,17 @@
 	              )
 	            );
 	          }).reverse();
-	        } else if (!sentStatus && !posts.length) {
-	          return _react2.default.createElement(
-	            'h3',
-	            null,
-	            'No posts found!'
-	          );
 	        } else if (sentStatus) {
 	          return _react2.default.createElement(
-	            'h3',
+	            'p',
 	            null,
 	            'Loading posts.. hang on a sec..'
+	          );
+	        } else {
+	          return _react2.default.createElement(
+	            'p',
+	            null,
+	            'No posts were found!'
 	          );
 	        }
 	      }
@@ -29565,7 +29568,7 @@
 	  var reducer = redux.combineReducers({
 	    postsArray: _reducers.postReducer,
 	    error: _reducers.errorStatusReducer,
-	    dispatch: _reducers.dispatchStatusReducer
+	    sentStatus: _reducers.dispatchStatusReducer
 	  });
 
 	  var store = redux.createStore(reducer, initialState, redux.compose(window.devToolsExtension ? window.devToolsExtension() : function (f) {
@@ -29628,10 +29631,8 @@
 
 	  switch (action.type) {
 	    case 'START_DISPATCH':
-	      return !state;
-
 	    case 'END_DISPATCH':
-	      return !state;
+	      return !action.setStatus;
 
 	    default:
 	      return state;

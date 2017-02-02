@@ -10,9 +10,12 @@ import postAPI from 'postAPI'
 import Main from 'Main'
 import Posts from 'Posts'
 
-store.dispatch(actions.startDispatch(store.getState().sentStatus));
+var state = store.getState();
+
+//This is mess, but grabs initial posts, gives user loading message
+store.dispatch(actions.startDispatch(state.sentStatus));
 postAPI.getPosts().then(posts => {
-  store.dispatch(actions.endDispatch(store.getState().sentStatus));
+  store.dispatch(actions.endDispatch(state.sentStatus));
   store.dispatch(actions.addPosts(posts.data));
 })
 

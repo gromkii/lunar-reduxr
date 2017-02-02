@@ -5,7 +5,7 @@ export function configure(initialState = {}) {
   var reducer = redux.combineReducers({
     postsArray:postReducer,
     error:errorStatusReducer,
-    dispatch:dispatchStatusReducer
+    sentStatus:dispatchStatusReducer
   });
 
   var store = redux.createStore(reducer, initialState, redux.compose(

@@ -14,13 +14,13 @@ export class PostFeed extends Component {
             </div>
           )
         }).reverse()
-      } else if (!sentStatus && !posts.length){
-        return (
-          <h3>No posts found!</h3>
-        )
       } else if (sentStatus) {
         return (
-          <h3>Loading posts.. hang on a sec..</h3>
+          <p>Loading posts.. hang on a sec..</p>
+        )
+      } else {
+        return (
+          <p>No posts were found!</p>
         )
       }
     }
