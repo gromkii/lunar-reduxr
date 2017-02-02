@@ -1,32 +1,27 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-export default class PostForm extends Component {
+export class PostForm extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      error:false
-    };
 
     this._handleSubmit = this._handleSubmit.bind(this);
   }
 
   _handleSubmit(e) {
     e.preventDefault();
+    var { dispatch } = this.props
+    var text = this.refs.post_text.value;
 
-    var data = this.refs.post_text.value;
-
-    if (data.length >= 5 && data.length <= 500) {
-      this.refs.post_text.value = '';
-      this.props.handleFormPost(String(data));
-      this.setState({
-        error:false
-      })
+    if (text.length < 5) {
+      // Error for too short.
+      this.refs.post_text.focus();
+    } else if (text.length > 500) {
+      // Error for too long.
+      this.refs.post_text.focus();
     } else {
-      this.setState({
-        error:true
-      });
+      dispatch(actions.addPost(this.refs.post_text.value));
+      this.refs.text.value = '';
     }
   }
 
@@ -54,3 +49,7 @@ export default class PostForm extends Component {
     )
   }
 }
+
+export default connect(state => {
+  error:state.error
+})(PostForm)
