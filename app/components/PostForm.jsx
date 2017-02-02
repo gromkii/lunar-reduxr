@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from 'actions'
+import postAPI from 'postAPI'
 import axios from 'axios'
 
 export class PostForm extends Component {
@@ -30,7 +31,9 @@ export class PostForm extends Component {
     var text = this.refs.post_text.value;
 
     if(this.props.error === 'valid') {
-      dispatch(actions.addPost(text));
+      postAPI.addPost(text).then(res => {
+        dispatch(actions.addPost(res.data[0]));
+      })
     } else {
       this.refs.post_text.focus();
     }

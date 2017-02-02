@@ -4,18 +4,25 @@ import { connect } from 'react-redux'
 export class PostFeed extends Component {
   render() {
     var posts = this.props.postsArray;
-
-    var postFeed = posts.map(post => {
-      return (
-        <p key={post.id}>
-          {post.post_text}
-        </p>
-      )
-    });
+    function postFeed() {
+      if (posts.length) {
+        return posts.map(post => {
+          return (
+            <div key={post.id}>
+              <p>{post.post_text}</p>
+            </div>
+          )
+        }).reverse()
+      } else {
+        return (
+          <h3>No posts currently found!</h3>
+        )
+      }
+    }
 
     return (
       <section>
-        {postFeed.reverse()}
+        {postFeed()}
       </section>
     )
   }

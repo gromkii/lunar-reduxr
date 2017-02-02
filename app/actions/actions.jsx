@@ -1,7 +1,7 @@
-export function addPost(post_text) {
+export function addPost(post) {
   return {
     type:'ADD_POST',
-    post_text
+    post
   }
 }
 
