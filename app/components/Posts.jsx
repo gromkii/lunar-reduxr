@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import axios from 'axios'
 
 import PostForm from 'PostForm'
@@ -7,39 +8,14 @@ import PostFeed from 'PostFeed'
 export default class Posts extends Component {
   constructor(props){
     super(props);
-
-    this.state = {
-      postsArray:[]
-    }
-
-    this._handleFeedUpdate = this._handleFeedUpdate.bind(this);
   }
 
   componentWillMount() {
-    axios.get('/posts').then(response => {
-      this._handleFeedUpdate(response.data);
-    });
+
   }
 
-  _handleFeedUpdate(posts) {
-    this.setState({
-      postsArray:posts
-    });
-  }
 
   render(){
-    function viewData() {
-      if (this.state.postsArray.length) {
-        return (
-          <PostFeed />
-        );
-      } else {
-        return  null;
-      }
-    }
-
-
-
     return(
       <section className="row top-margin">
         <div className="columns small-6 post-form">
@@ -50,7 +26,7 @@ export default class Posts extends Component {
 
 
         <div className="columns small-6 post-feed">
-          {viewData()}
+          <PostFeed />
         </div>
       </section>
     )

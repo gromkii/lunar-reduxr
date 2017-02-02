@@ -65,5 +65,5 @@ export class PostForm extends Component {
 }
 
 export default connect(state => {
-  error:state.error
+  return { error:state.error }
 })(PostForm)

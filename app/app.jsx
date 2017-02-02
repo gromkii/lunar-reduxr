@@ -5,9 +5,14 @@ import { Provider } from 'react-redux'
 
 import * as actions from 'actions'
 var store = require('configureStore').configure();
+import postAPI from 'postAPI'
 
 import Main from 'Main'
 import Posts from 'Posts'
+
+postAPI.getPosts().then(posts => {
+  store.dispatch(actions.addPosts(posts.data));
+})
 
 // Include CSS for Foundation
 require('style!css!foundation-sites/dist/css/foundation.min.css');

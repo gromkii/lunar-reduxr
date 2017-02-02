@@ -2,10 +2,15 @@ export function postReducer(state = [], action) {
   switch(action.type) {
     case 'ADD_POST':
       return [
-        ...state,
-        {
-          ...action.post // Should spread all the properties from returned post.
+        ...state, {
+          ...action.post
         }
+      ]
+
+    case 'ADD_POSTS':
+      return [
+        ...state,
+        ...action.postsArray
       ]
 
     default:

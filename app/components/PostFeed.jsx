@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 export class PostFeed extends Component {
-  reunder() {
-    var posts = this.props.postArray;
+  render() {
+    var posts = this.props.postsArray;
 
     var postFeed = posts.map(post => {
       return (
@@ -22,5 +22,5 @@ export class PostFeed extends Component {
 }
 
 export default connect(state => {
-  postsArray:state.postsArray
+  return { postsArray:state.postsArray }
 })(PostFeed);
