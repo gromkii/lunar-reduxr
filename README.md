@@ -1,5 +1,5 @@
-#Lunar Talkr
-The only way to chat.
+#Lunar Reduxr
+The only way to chat, now with added Redux!
 
 ## [See it in action!](https://lunar-talkr.herokuapp.com/)
 
