@@ -1,19 +1,26 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-const PostFeed = ({posts}) => {
-  var postFeed = posts.map(post => {
+export class PostFeed extends Component {
+  reunder() {
+    var posts = this.props.postArray;
+
+    var postFeed = posts.map(post => {
+      return (
+        <p key={post.id}>
+          {post.post_text}
+        </p>
+      )
+    });
+
     return (
-      <p key={post.id}>
-        {post.post_text}
-      </p>
+      <section>
+        {postFeed.reverse()}
+      </section>
     )
-  });
-
-  return (
-    <section>
-      {postFeed.reverse()}
-    </section>
-  )
+  }
 }
 
-export default PostFeed;
+export default connect(state => {
+  postsArray:state.postsArray
+})(PostFeed);

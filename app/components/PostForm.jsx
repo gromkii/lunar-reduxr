@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import axios from 'axios'
 
 export class PostForm extends Component {
@@ -6,6 +7,20 @@ export class PostForm extends Component {
     super(props)
 
     this._handleSubmit = this._handleSubmit.bind(this);
+    this._handleChange = this._handleChange.bind(this);
+  }
+
+  _handleChange(e) {
+    var { dispatch } = this.props;
+    var text = this.refs.post_text.value;
+
+    if (text.length < 5) {
+      dispatch(actions.setErrorStatus('short'));
+    } else if (text.length > 500) {
+      dispatch(actions.setErrorState('long'));
+    } else {
+      dispatch(actions.setErrorState('valid'));
+    }
   }
 
   _handleSubmit(e) {
@@ -13,38 +28,37 @@ export class PostForm extends Component {
     var { dispatch } = this.props
     var text = this.refs.post_text.value;
 
-    if (text.length < 5) {
-      // Error for too short.
-      this.refs.post_text.focus();
-    } else if (text.length > 500) {
-      // Error for too long.
-      this.refs.post_text.focus();
+    if(this.props.error === 'valid') {
+      dispatch(actions.addPost(text));
     } else {
-      dispatch(actions.addPost(this.refs.post_text.value));
-      this.refs.text.value = '';
+      this.refs.post_text.focus();
     }
   }
 
   render() {
-    var userMessage = null;
+    var userMessage = () => {
+      switch(this.props.error) {
+        case 'short':
+          return (<h4 className="error-message">Error, post is too short!</h4>)
 
-    if (this.state.error) {
-      userMessage = (
-        <h4 className="error-message">Error, post to long, or too short!</h4>
-      );
-    } else {
-      userMessage = null;
+        case 'long':
+          return (<h4 className="error-message">Error, post is too long!</h4>)
+
+        case 'valid':
+        default:
+          return null
+      }
     }
 
     return (
       <section>
         <form id="postForm" onSubmit={this._handleSubmit}>
-          <textarea ref="post_text"></textarea>
+          <textarea ref="post_text" onChange={this.handleChange}></textarea>
 
           <button className="button expanded">Post</button>
         </form>
 
-        {userMessage}
+        {userMessage()}
       </section>
     )
   }

@@ -12,26 +12,12 @@ export default class Posts extends Component {
       postsArray:[]
     }
 
-    this._handleFormPost = this._handleFormPost.bind(this);
     this._handleFeedUpdate = this._handleFeedUpdate.bind(this);
   }
 
   componentWillMount() {
     axios.get('/posts').then(response => {
       this._handleFeedUpdate(response.data);
-    });
-  }
-
-  _handleFormPost(formText){
-    axios.post('/posts', {
-      post_text:formText
-    }).then(response => {
-      var newArr = this.state.postsArray,
-        newPost  = response.data[0];
-
-      newArr.push(newPost);
-
-      this._handleFeedUpdate(newArr);
     });
   }
 
@@ -42,15 +28,16 @@ export default class Posts extends Component {
   }
 
   render(){
-    var viewData = null;
-
-    if (this.state.postsArray.length) {
-      viewData = (
-        <PostFeed posts={this.state.postsArray} />
-      );
-    } else {
-      viewData = null;
+    function viewData() {
+      if (this.state.postsArray.length) {
+        return (
+          <PostFeed />
+        );
+      } else {
+        return  null;
+      }
     }
+
 
 
     return(
@@ -58,12 +45,12 @@ export default class Posts extends Component {
         <div className="columns small-6 post-form">
           <h1>Talkr</h1>
           <h4>What's on your mind?</h4>
-          <PostForm handleFormPost={this._handleFormPost}/>
+          <PostForm />
         </div>
 
 
         <div className="columns small-6 post-feed">
-          {viewData}
+          {viewData()}
         </div>
       </section>
     )

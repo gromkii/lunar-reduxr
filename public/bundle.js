@@ -27611,10 +27611,18 @@
 	  value: true
 	});
 	exports.addPost = addPost;
+	exports.setErrorStatus = setErrorStatus;
 	function addPost(post_text) {
 	  return {
 	    type: 'ADD_POST',
 	    post_text: post_text
+	  };
+	}
+
+	function setErrorStatus(error) {
+	  return {
+	    type: 'SET_ERROR_STATUS',
+	    error: error
 	  };
 	}
 
@@ -27723,7 +27731,6 @@
 	      postsArray: []
 	    };
 
-	    _this._handleFormPost = _this._handleFormPost.bind(_this);
 	    _this._handleFeedUpdate = _this._handleFeedUpdate.bind(_this);
 	    return _this;
 	  }
@@ -27738,22 +27745,6 @@
 	      });
 	    }
 	  }, {
-	    key: '_handleFormPost',
-	    value: function _handleFormPost(formText) {
-	      var _this3 = this;
-
-	      _axios2.default.post('/posts', {
-	        post_text: formText
-	      }).then(function (response) {
-	        var newArr = _this3.state.postsArray,
-	            newPost = response.data[0];
-
-	        newArr.push(newPost);
-
-	        _this3._handleFeedUpdate(newArr);
-	      });
-	    }
-	  }, {
 	    key: '_handleFeedUpdate',
 	    value: function _handleFeedUpdate(posts) {
 	      this.setState({
@@ -27763,12 +27754,12 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var viewData = null;
-
-	      if (this.state.postsArray.length) {
-	        viewData = _react2.default.createElement(_PostFeed2.default, { posts: this.state.postsArray });
-	      } else {
-	        viewData = null;
+	      function viewData() {
+	        if (this.state.postsArray.length) {
+	          return _react2.default.createElement(_PostFeed2.default, null);
+	        } else {
+	          return null;
+	        }
 	      }
 
 	      return _react2.default.createElement(
@@ -27787,12 +27778,12 @@
 	            null,
 	            'What\'s on your mind?'
 	          ),
-	          _react2.default.createElement(_PostForm2.default, { handleFormPost: this._handleFormPost })
+	          _react2.default.createElement(_PostForm2.default, null)
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'columns small-6 post-feed' },
-	          viewData
+	          viewData()
 	        )
 	      );
 	    }
@@ -29309,6 +29300,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRedux = __webpack_require__(227);
+
 	var _axios = __webpack_require__(266);
 
 	var _axios2 = _interopRequireDefault(_axios);
@@ -29330,10 +29323,26 @@
 	    var _this = _possibleConstructorReturn(this, (PostForm.__proto__ || Object.getPrototypeOf(PostForm)).call(this, props));
 
 	    _this._handleSubmit = _this._handleSubmit.bind(_this);
+	    _this._handleChange = _this._handleChange.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(PostForm, [{
+	    key: '_handleChange',
+	    value: function _handleChange(e) {
+	      var dispatch = this.props.dispatch;
+
+	      var text = this.refs.post_text.value;
+
+	      if (text.length < 5) {
+	        dispatch(actions.setErrorStatus('short'));
+	      } else if (text.length > 500) {
+	        dispatch(actions.setErrorState('long'));
+	      } else {
+	        dispatch(actions.setErrorState('valid'));
+	      }
+	    }
+	  }, {
 	    key: '_handleSubmit',
 	    value: function _handleSubmit(e) {
 	      e.preventDefault();
@@ -29341,31 +29350,38 @@
 
 	      var text = this.refs.post_text.value;
 
-	      if (text.length < 5) {
-	        // Error for too short.
-	        this.refs.post_text.focus();
-	      } else if (text.length > 500) {
-	        // Error for too long.
-	        this.refs.post_text.focus();
+	      if (this.props.error === 'valid') {
+	        dispatch(actions.addPost(text));
 	      } else {
-	        dispatch(actions.addPost(this.refs.post_text.value));
-	        this.refs.text.value = '';
+	        this.refs.post_text.focus();
 	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var userMessage = null;
+	      var _this2 = this;
 
-	      if (this.state.error) {
-	        userMessage = _react2.default.createElement(
-	          'h4',
-	          { className: 'error-message' },
-	          'Error, post to long, or too short!'
-	        );
-	      } else {
-	        userMessage = null;
-	      }
+	      var userMessage = function userMessage() {
+	        switch (_this2.props.error) {
+	          case 'short':
+	            return _react2.default.createElement(
+	              'h4',
+	              { className: 'error-message' },
+	              'Error, post is too short!'
+	            );
+
+	          case 'long':
+	            return _react2.default.createElement(
+	              'h4',
+	              { className: 'error-message' },
+	              'Error, post is too long!'
+	            );
+
+	          case 'valid':
+	          default:
+	            return null;
+	        }
+	      };
 
 	      return _react2.default.createElement(
 	        'section',
@@ -29373,14 +29389,14 @@
 	        _react2.default.createElement(
 	          'form',
 	          { id: 'postForm', onSubmit: this._handleSubmit },
-	          _react2.default.createElement('textarea', { ref: 'post_text' }),
+	          _react2.default.createElement('textarea', { ref: 'post_text', onChange: this.handleChange }),
 	          _react2.default.createElement(
 	            'button',
 	            { className: 'button expanded' },
 	            'Post'
 	          )
 	        ),
-	        userMessage
+	        userMessage()
 	      );
 	    }
 	  }]);
@@ -29388,7 +29404,7 @@
 	  return PostForm;
 	}(_react.Component);
 
-	exports.default = connect(function (state) {
+	exports.default = (0, _reactRedux.connect)(function (state) {
 	  error: state.error;
 	})(PostForm);
 
@@ -29401,32 +29417,60 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.PostFeed = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRedux = __webpack_require__(227);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var PostFeed = function PostFeed(_ref) {
-	  var posts = _ref.posts;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	  var postFeed = posts.map(function (post) {
-	    return _react2.default.createElement(
-	      'p',
-	      { key: post.id },
-	      post.post_text
-	    );
-	  });
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	  return _react2.default.createElement(
-	    'section',
-	    null,
-	    postFeed.reverse()
-	  );
-	};
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	exports.default = PostFeed;
+	var PostFeed = exports.PostFeed = function (_Component) {
+	  _inherits(PostFeed, _Component);
+
+	  function PostFeed() {
+	    _classCallCheck(this, PostFeed);
+
+	    return _possibleConstructorReturn(this, (PostFeed.__proto__ || Object.getPrototypeOf(PostFeed)).apply(this, arguments));
+	  }
+
+	  _createClass(PostFeed, [{
+	    key: 'reunder',
+	    value: function reunder() {
+	      var posts = this.props.postArray;
+
+	      var postFeed = posts.map(function (post) {
+	        return _react2.default.createElement(
+	          'p',
+	          { key: post.id },
+	          post.post_text
+	        );
+	      });
+
+	      return _react2.default.createElement(
+	        'section',
+	        null,
+	        postFeed.reverse()
+	      );
+	    }
+	  }]);
+
+	  return PostFeed;
+	}(_react.Component);
+
+	exports.default = (0, _reactRedux.connect)(function (state) {
+	  postsArray: state.postsArray;
+	})(PostFeed);
 
 /***/ },
 /* 293 */
