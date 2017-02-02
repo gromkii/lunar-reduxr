@@ -31,8 +31,10 @@ export function errorStatusReducer(state = '', action) {
 export function dispatchStatusReducer(state = false, action) {
   switch(action.type) {
     case 'START_DISPATCH':
+      return !action.sentStatus
+
     case 'END_DISPATCH':
-      return !action.setStatus
+      return !action.sentStatus
 
     default:
       return state;

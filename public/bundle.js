@@ -122,8 +122,8 @@
 	//This is mess, but grabs initial posts, gives user loading message
 	store.dispatch(actions.startDispatch(state.sentStatus));
 	_postAPI2.default.getPosts().then(function (posts) {
-	  store.dispatch(actions.endDispatch(state.sentStatus));
 	  store.dispatch(actions.addPosts(posts.data));
+	  store.dispatch(actions.endDispatch(state.sentStatus));
 	});
 
 	// Include CSS for Foundation
@@ -29521,7 +29521,7 @@
 	            null,
 	            'Loading posts.. hang on a sec..'
 	          );
-	        } else {
+	        } else if (!sentStatus && !posts.length) {
 	          return _react2.default.createElement(
 	            'p',
 	            null,
@@ -29631,8 +29631,10 @@
 
 	  switch (action.type) {
 	    case 'START_DISPATCH':
+	      return !action.sentStatus;
+
 	    case 'END_DISPATCH':
-	      return !action.setStatus;
+	      return !action.sentStatus;
 
 	    default:
 	      return state;

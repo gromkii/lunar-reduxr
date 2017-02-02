@@ -18,7 +18,7 @@ export class PostFeed extends Component {
         return (
           <p>Loading posts.. hang on a sec..</p>
         )
-      } else {
+      } else if (!sentStatus && !posts.length){
         return (
           <p>No posts were found!</p>
         )
