@@ -1,19 +1,41 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-const PostFeed = ({posts}) => {
-  var postFeed = posts.map(post => {
+export class PostFeed extends Component {
+  render() {
+    var posts = this.props.postsArray;
+    var { sentStatus } = this.props
+    function postFeed() {
+      if (posts.length) {
+        return posts.map(post => {
+          return (
+            <div key={post.id}>
+              <p>{post.post_text}</p>
+            </div>
+          )
+        }).reverse()
+      } else if (sentStatus) {
+        return (
+          <p>Loading posts.. hang on a sec..</p>
+        )
+      } else if (!sentStatus && !posts.length){
+        return (
+          <p>No posts were found!</p>
+        )
+      }
+    }
+
     return (
-      <p key={post.id}>
-        {post.post_text}
-      </p>
+      <section>
+        {postFeed()}
+      </section>
     )
-  });
-
-  return (
-    <section>
-      {postFeed.reverse()}
-    </section>
-  )
+  }
 }
 
-export default PostFeed;
+export default connect(state => {
+  return {
+    postsArray:state.postsArray,
+    sentStatus:state.sentStatus
+  }
+})(PostFeed);

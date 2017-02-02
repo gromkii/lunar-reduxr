@@ -21,13 +21,17 @@ module.exports = {
   },
   resolve:{
     root: __dirname,
+    modulesDirectories:[
+      'node_modules',
+      './app/components'
+    ],
     alias: {
       applicationStyles: 'app/styles/app.scss',
       Server:'server.js',
-      Main:'app/components/Main.jsx',
-      Posts:'app/components/Posts.jsx',
-      PostForm:'app/components/PostForm.jsx',
-      PostFeed:'app/components/PostFeed.jsx',
+      actions:'app/actions/actions.jsx',
+      reducers:'app/reducers/reducers.jsx',
+      configureStore:'app/store/configureStore.jsx',
+      postAPI:'app/postAPI.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },
