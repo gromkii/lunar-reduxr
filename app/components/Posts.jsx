@@ -6,15 +6,6 @@ import PostForm from 'PostForm'
 import PostFeed from 'PostFeed'
 
 export default class Posts extends Component {
-  constructor(props){
-    super(props);
-  }
-
-  componentWillMount() {
-
-  }
-
-
   render(){
     return(
       <section className="row top-margin">

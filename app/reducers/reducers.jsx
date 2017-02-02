@@ -19,11 +19,24 @@ export function postReducer(state = [], action) {
 }
 
 export function errorStatusReducer(state = '', action) {
-  switch(action.type){
+  switch(action.type) {
     case 'SET_ERROR_STATUS':
       return action.error
 
     default:
       return state
+  }
+}
+
+export function dispatchStatusReducer(state = false, action) {
+  switch(action.type) {
+    case 'START_DISPATCH':
+      return !state;
+
+    case 'END_DISPATCH':
+      return !state
+
+    default:
+      return state;
   }
 }

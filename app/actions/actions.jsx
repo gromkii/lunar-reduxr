@@ -18,3 +18,17 @@ export function setErrorStatus(error) {
     error
   }
 }
+
+export function startDispatch(sentStatus) {
+  return {
+    type:'START_DISPATCH',
+    sentStatus
+  }
+}
+
+export function endDispatch(sentStatus) {
+  return {
+    type:'END_DISPATCH',
+    sentStatus
+  }
+}

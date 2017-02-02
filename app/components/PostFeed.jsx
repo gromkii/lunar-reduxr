@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 export class PostFeed extends Component {
   render() {
     var posts = this.props.postsArray;
+    var { sentStatus } = this.props
     function postFeed() {
       if (posts.length) {
         return posts.map(post => {
@@ -13,9 +14,13 @@ export class PostFeed extends Component {
             </div>
           )
         }).reverse()
-      } else {
+      } else if (!sentStatus && !posts.length){
         return (
-          <h3>No posts currently found!</h3>
+          <h3>No posts found!</h3>
+        )
+      } else if (sentStatus) {
+        return (
+          <h3>Loading posts.. hang on a sec..</h3>
         )
       }
     }
@@ -29,5 +34,8 @@ export class PostFeed extends Component {
 }
 
 export default connect(state => {
-  return { postsArray:state.postsArray }
+  return {
+    postsArray:state.postsArray,
+    sentStatus:state.sentStatus
+  }
 })(PostFeed);

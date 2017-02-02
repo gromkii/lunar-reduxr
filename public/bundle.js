@@ -117,7 +117,9 @@
 	var store = __webpack_require__(294).configure();
 
 
+	store.dispatch(actions.startDispatch(store.getState().sentStatus));
 	_postAPI2.default.getPosts().then(function (posts) {
+	  store.dispatch(actions.endDispatch(store.getState().sentStatus));
 	  store.dispatch(actions.addPosts(posts.data));
 	});
 
@@ -27622,6 +27624,8 @@
 	exports.addPost = addPost;
 	exports.addPosts = addPosts;
 	exports.setErrorStatus = setErrorStatus;
+	exports.startDispatch = startDispatch;
+	exports.endDispatch = endDispatch;
 	function addPost(post) {
 	  return {
 	    type: 'ADD_POST',
@@ -27640,6 +27644,20 @@
 	  return {
 	    type: 'SET_ERROR_STATUS',
 	    error: error
+	  };
+	}
+
+	function startDispatch(sentStatus) {
+	  return {
+	    type: 'START_DISPATCH',
+	    sentStatus: sentStatus
+	  };
+	}
+
+	function endDispatch(sentStatus) {
+	  return {
+	    type: 'END_DISPATCH',
+	    sentStatus: sentStatus
 	  };
 	}
 
@@ -29259,16 +29277,13 @@
 	var Posts = function (_Component) {
 	  _inherits(Posts, _Component);
 
-	  function Posts(props) {
+	  function Posts() {
 	    _classCallCheck(this, Posts);
 
-	    return _possibleConstructorReturn(this, (Posts.__proto__ || Object.getPrototypeOf(Posts)).call(this, props));
+	    return _possibleConstructorReturn(this, (Posts.__proto__ || Object.getPrototypeOf(Posts)).apply(this, arguments));
 	  }
 
 	  _createClass(Posts, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {}
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -29383,6 +29398,8 @@
 	      if (this.props.error === 'valid') {
 	        _postAPI2.default.addPost(text).then(function (res) {
 	          dispatch(actions.addPost(res.data[0]));
+	        }).catch(function (err) {
+	          return console.error(err);
 	        });
 	      } else {
 	        this.refs.post_text.focus();
@@ -29480,6 +29497,8 @@
 	    key: 'render',
 	    value: function render() {
 	      var posts = this.props.postsArray;
+	      var sentStatus = this.props.sentStatus;
+
 	      function postFeed() {
 	        if (posts.length) {
 	          return posts.map(function (post) {
@@ -29493,11 +29512,17 @@
 	              )
 	            );
 	          }).reverse();
-	        } else {
+	        } else if (!sentStatus && !posts.length) {
 	          return _react2.default.createElement(
 	            'h3',
 	            null,
-	            'No posts currently found!'
+	            'No posts found!'
+	          );
+	        } else if (sentStatus) {
+	          return _react2.default.createElement(
+	            'h3',
+	            null,
+	            'Loading posts.. hang on a sec..'
 	          );
 	        }
 	      }
@@ -29514,7 +29539,10 @@
 	}(_react.Component);
 
 	exports.default = (0, _reactRedux.connect)(function (state) {
-	  return { postsArray: state.postsArray };
+	  return {
+	    postsArray: state.postsArray,
+	    sentStatus: state.sentStatus
+	  };
 	})(PostFeed);
 
 /***/ },
@@ -29536,7 +29564,8 @@
 
 	  var reducer = redux.combineReducers({
 	    postsArray: _reducers.postReducer,
-	    error: _reducers.errorStatusReducer
+	    error: _reducers.errorStatusReducer,
+	    dispatch: _reducers.dispatchStatusReducer
 	  });
 
 	  var store = redux.createStore(reducer, initialState, redux.compose(window.devToolsExtension ? window.devToolsExtension() : function (f) {
@@ -29560,6 +29589,7 @@
 
 	exports.postReducer = postReducer;
 	exports.errorStatusReducer = errorStatusReducer;
+	exports.dispatchStatusReducer = dispatchStatusReducer;
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -29586,6 +29616,22 @@
 	  switch (action.type) {
 	    case 'SET_ERROR_STATUS':
 	      return action.error;
+
+	    default:
+	      return state;
+	  }
+	}
+
+	function dispatchStatusReducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'START_DISPATCH':
+	      return !state;
+
+	    case 'END_DISPATCH':
+	      return !state;
 
 	    default:
 	      return state;

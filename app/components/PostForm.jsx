@@ -32,8 +32,8 @@ export class PostForm extends Component {
 
     if(this.props.error === 'valid') {
       postAPI.addPost(text).then(res => {
-        dispatch(actions.addPost(res.data[0]));
-      })
+        dispatch(actions.addPost(res.data[0]))
+      }).catch(err => console.error(err));
     } else {
       this.refs.post_text.focus();
     }
